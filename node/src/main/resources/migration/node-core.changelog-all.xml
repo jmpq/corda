@@ -1,0 +1,330 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="node_attachments" author="R3.Corda">
+        <createTable tableName="node_attachments">
+            <column name="att_id" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="blob">
+                <constraints nullable="false"/>
+            </column>
+            <column name="filename" type="NVARCHAR(255)"/>
+            <column name="insertion_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uploader" type="NVARCHAR(255)"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_attachments_contracts" author="R3.Corda">
+        <createTable tableName="node_attachments_contracts">
+            <column name="att_id" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contract_class_name" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_signers" author="R3.Corda">
+        <createTable tableName="node_signers">
+            <column name="att_id" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="signer" type="NVARCHAR(1024)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_checkpoints" author="R3.Corda">
+        <createTable tableName="node_checkpoints">
+            <column name="flow_id" type="NVARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="compatible" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="progress_step" type="NVARCHAR(256)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="flow_id_request" type="NVARCHAR(128)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_checkpoints_blobs" author="R3.Corda">
+        <createTable tableName="node_checkpoints_blobs">
+            <column name="flow_id" type="NVARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="checkpoint_value" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="flow_state" type="BLOB">
+                <constraints nullable="true"/>
+            </column>
+            <column name="timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hmac" type="VARBINARY(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_flow_results" author="R3.Corda">
+        <createTable tableName="node_flow_results">
+            <column name="flow_id" type="NVARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="result_value" type="BLOB">
+                <constraints nullable="true"/>
+            </column>
+            <column name="timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_flow_exception" author="R3.Corda">
+        <createTable tableName="node_flow_exception">
+            <column name="flow_id" type="NVARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="NVARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exception_message" type="NVARCHAR(2000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="stacktrace" type="NVARCHAR(2000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exception_value" type="BLOB">
+                <constraints nullable="true"/>
+            </column>
+            <column name="timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_flow_metadata" author="R3.Corda">
+        <createTable tableName="node_flow_metadata">
+            <column name="flow_id" type="NVARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="invocation_id" type="NVARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="flow_name" type="NVARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="flow_identifier" type="NVARCHAR(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="started_type" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="flow_parameters" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cordapp_name" type="NVARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="platform_version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="started_by" type="NVARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="invocation_time" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="finish_time" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_contract_upgrades" author="R3.Corda">
+        <createTable tableName="node_contract_upgrades">
+            <column name="state_ref" type="NVARCHAR(96)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contract_class_name" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_identities" author="R3.Corda">
+        <createTable tableName="node_identities">
+            <column name="pk_hash" type="NVARCHAR(130)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="identity_value" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_identities_no_cert" author="R3.Corda">
+        <createTable tableName="node_identities_no_cert">
+            <column name="pk_hash" type="NVARCHAR(130)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="NVARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="public_key" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_message_id" author="R3.Corda">
+        <createTable tableName="node_message_id">
+            <column name="message_id" type="">
+                <constraints nullable="false"/>
+            </column>
+            <column name="insertion_time" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sender" type="NVARCHAR(64)"/>
+            <column name="sequence_number" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_our_key_pairs" author="R3.Corda">
+        <createTable tableName="node_our_key_pairs">
+            <column name="public_key_hash" type="NVARCHAR(130)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="private_key" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="public_key" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_scheduled_state" author="R3.Corda">
+        <createTable tableName="node_scheduled_state">
+            <column name="output_index" type="INT"/>
+            <column name="transaction_id" type="NVARCHAR(64)"/>
+            <column name="scheduled_at" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_transactions" author="R3.Corda">
+        <createTable tableName="node_transactions">
+            <column name="tx_id" type="NVARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_value" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state_machine_run_id" type="NVARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="NVARCHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="timestamp" type="TIMESTAMP" defaultValue="2000-01-01 12:00:00">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_network_parameters" author="R3.Corda">
+        <createTable tableName="node_network_parameters">
+            <column name="hash" type="NVARCHAR(130)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="epoch" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parameter_bytes" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="signature_bytes" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cert" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parent_cert_path" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_attachments_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="att_id" constraintName="node_attachments_pkey" tableName="node_attachments"/>
+    </changeSet>
+    <changeSet id="node_checkpoints_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="flow_id" constraintName="node_checkpoints_pkey" tableName="node_checkpoints" clustered="false"/>
+    </changeSet>
+    <changeSet id="node_contract_upgrades_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="state_ref" constraintName="node_contract_upgrades_pkey" tableName="node_contract_upgrades"/>
+    </changeSet>
+    <changeSet id="node_identities_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="pk_hash" constraintName="node_identities_pkey" tableName="node_identities" clustered="false"/>
+    </changeSet>
+    <changeSet id="node_identities_no_cert_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="pk_hash" constraintName="node_identities_no_cert_pkey" tableName="node_identities_no_cert"/>
+    </changeSet>
+    <changeSet id="node_message_ids_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="message_id" constraintName="node_message_ids_pkey" tableName="node_message_ids" clustered="false"/>
+    </changeSet>
+    <changeSet id="node_our_key_pairs_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="public_key_hash" constraintName="node_our_key_pairs_pkey" tableName="node_our_key_pairs"/>
+    </changeSet>
+    <changeSet id="node_scheduled_states_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="output_index, transaction_id" constraintName="node_scheduled_states_pkey" tableName="node_scheduled_states"/>
+    </changeSet>
+    <changeSet id="node_transaction_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="tx_id" constraintName="node_transaction_pkey" tableName="node_transaction" clustered="false"/>
+    </changeSet>
+    <changeSet id="node_network_parameters_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="hash" constraintName="node_network_parameters_pkey" tableName="node_network_parameters"/>
+    </changeSet>
+    <changeSet id="node_attachments_contracts_fkey" author="R3.Corda">
+        <addForeignKeyConstraint baseColumnNames="att_id" baseTableName="node_attachments_contracts"
+                                 constraintName="FK__ctr_class__attachments"
+                                 referencedColumnNames="att_id" referencedTableName="node_attachments"/>
+    </changeSet>
+    <changeSet id="node_attachments_signers_fkey" author="R3.Corda">
+        <addForeignKeyConstraint baseColumnNames="att_id" baseTableName="node_attachments_signers"
+                                 constraintName="FK__signers__attachments"
+                                 referencedColumnNames="att_id" referencedTableName="node_attachments"/>
+    </changeSet>
+    <changeSet id="add index node_attachments" author="R3.Corda">
+        <createIndex tableName="node_attachments" indexName="att_id_idx">
+            <column name="att_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="add index node_checkpoints_blobs" author="R3.Corda">
+        <createIndex tableName="node_checkpoints_blobs" indexName="flow_id_idx" unique="true" clustered="false">
+            <column name="flow_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="add index node_flow_results" author="R3.Corda">
+        <createIndex tableName="node_flow_results" indexName="flow_id_idx" unique="true" clustered="false">
+            <column name="flow_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="add index node_flow_exceptions" author="R3.Corda">
+        <createIndex tableName="node_flow_exceptions" indexName="flow_id_idx" unique="true" clustered="false">
+            <column name="flow_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="add index node_flow_metadata" author="R3.Corda">
+        <createIndex tableName="node_flow_metadata" indexName="flow_id_idx" unique="true" clustered="false">
+            <column name="flow_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

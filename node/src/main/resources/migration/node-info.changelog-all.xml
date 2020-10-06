@@ -1,0 +1,95 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="node_infos" author="R3.Corda">
+        <createTable tableName="node_infos">
+            <column name="node_info_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="node_info_hash" type="NVARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="platform_version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="serial" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_info_hosts" author="R3.Corda">
+        <createTable tableName="node_info_hosts">
+            <column name="host_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="host_name" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="port" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="node_info_id" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_info_party_cert" author="R3.Corda">
+        <createTable tableName="node_info_party_cert">
+            <column name="party_name" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ismain" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="owning_key_hash" type="NVARCHAR(130)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="party_cert_binary" type="BLOL">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_link_nodeinfo_party" author="R3.Corda">
+        <createTable tableName="node_link_nodeinfo_party">
+            <column name="node_info_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="party_name" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_properties" author="R3.Corda">
+        <createTable tableName="node_properties">
+            <column name="property_key" type="NVARCHAR(255)"/>
+            <column name="property_value" type="NVARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="node_infos_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="node_info_id" constraintName="node_infos_pkey" tableName="node_infos"/>
+    </changeSet>
+    <changeSet id="node_info_hosts_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="host_id" constraintName="node_info_hosts_pkey" tableName="node_info_hosts"/>
+    </changeSet>
+    <changeSet id="node_info_party_cert_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="party_name" constraintName="node_info_party_cert_pkey" tableName="node_info_party_cert"/>
+    </changeSet>
+    <changeSet id="node_info_hosts_fkey" author="R3.Corda">
+        <addForeignKeyConstraint baseColumnNames="node_info_id" baseTableName="node_info_hosts"
+                                 constraintName="FK__info_hosts__infos"
+                                 referencedColumnNames="node_info_id" referencedTableName="node_infos"/>
+    </changeSet>
+    <changeSet id="node_link_nodeinfo_party_fkey-1" author="R3.Corda">
+        <addForeignKeyConstraint baseColumnNames="node_info_id" baseTableName="node_link_nodeinfo_party"
+                                 constraintName="FK__link_nodeinfo_party__infos"
+                                 referencedColumnNames="node_info_id" referencedTableName="node_infos"/>
+    </changeSet>
+    <changeSet id="node_link_nodeinfo_party_fkey-2" author="R3.Corda">
+        <addForeignKeyConstraint baseColumnNames="party_name" baseTableName="node_link_nodeinfo_party"
+                                 constraintName="FK__link_ni_p__info_p_cert"
+                                 referencedColumnNames="party_name" referencedTableName="node_info_party_cert"/>
+    </changeSet>
+</databaseChangeLog>
+
+

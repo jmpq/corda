@@ -1,0 +1,32 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="R3.Corda" id="add_tenant" dbms="postgresql">
+        <addColumn tableName="vault_fungible_states">
+            <column name="tenant" type="TEXT" defaultValue="USER"/>
+        </addColumn>
+        <addColumn tableName="vault_fungible_states_parts">
+            <column name="tenant" type="TEXT" defaultValue="USER"/>
+        </addColumn>
+        <addColumn tableName="vault_linear_states">
+            <column name="tenant" type="TEXT" defaultValue="USER"/>
+        </addColumn>
+        <addColumn tableName="vault_linear_states_parts">
+            <column name="tenant" type="TEXT" defaultValue="USER"/>
+        </addColumn>
+        <addColumn tableName="vault_states">
+            <column name="tenant" type="TEXT" defaultValue="USER"/>
+        </addColumn>
+        <addColumn tableName="vault_transaction_notes">
+            <column name="tenant" type="TEXT" defaultValue="USER"/>
+        </addColumn>
+        <addColumn tableName="state_party">
+            <column name="tenant" type="TEXT" defaultValue="USER"/>
+        </addColumn>
+        <addColumn tableName="pk_hash_to_ext_id_map">
+            <column name="tenant" type="TEXT" defaultValue="USER"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

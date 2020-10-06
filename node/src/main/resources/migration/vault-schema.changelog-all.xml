@@ -1,0 +1,227 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd"
+                   logicalFilePath="migration/node-services.changelog-init.xml">
+
+    <changeSet id="vault_fungible_states" author="R3.Corda">
+        <createTable tableName="vault_fungible_states">
+            <column name="output_index" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_id" type="NVARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="issuer_name" type="NVARCHAR(255)"/>
+            <column name="issuer_ref" type="VARBINARY(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="owner_name" type="NVARCHAR(255)"/>
+            <column name="quantity" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="vault_fungible_states_parts" author="R3.Corda">
+        <createTable tableName="vault_fungible_states_parts">
+            <column name="output_index" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_id" type="NVARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="participants" type="NVARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="vault_linear_states" author="R3.Corda">
+        <createTable tableName="vault_linear_states">
+            <column name="output_index" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_id" type="NVARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="external_id" type="INT"/>
+            <column name="uuid" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="vault_linear_states_parts" author="R3.Corda">
+        <createTable tableName="vault_linear_states_parts">
+            <column name="output_index" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_id" type="NVARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="participants" type="NVARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="vault_states" author="R3.Corda">
+        <createTable tableName="vault_states">
+            <column name="output_index" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_id" type="NVARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="consumed_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contract_state_class_name" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lock_id" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="notary_name" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recorded_timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state_status" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="relevancy_status" type="INT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="constraint_type" type="INT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="constraint_data" type="VARBINARY(200000)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="vault_transaction_notes" author="R3.Corda">
+        <createTable tableName="vault_transaction_notes">
+            <column name="seq_no" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="note" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_id" type="NVARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="state_party" author="R3.Corda">
+        <createTable tableName="state_party">
+            <column name="output_index" type="INT"/>
+            <column name="transaction_id" type="NVARCHAR(64)"/>
+            <column name="public_key_hash" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="x500_name" type="NVARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="pk_hash_to_ext_id_map" author="R3.Corda">
+        <createTable tableName="">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="external_id" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="public_key_hash" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="vault_fungible_states_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="output_index, transaction_id" constraintName="vault_fungible_states_pkey"
+                       tableName="vault_fungible_states" clustered="false"/>
+    </changeSet>
+    <changeSet id="vault_linear_states_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="output_index, transaction_id" constraintName="vault_linear_states_pkey"
+                       tableName="vault_linear_states" clustered="false"/>
+    </changeSet>
+    <changeSet id="vault_states_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="output_index, transaction_id" constraintName="vault_states_pkey"
+                       tableName="vault_states" clustered="false"/>
+    </changeSet>
+    <changeSet id="vault_transaction_notes_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="seq_no" constraintName="vault_transaction_notes_pkey"
+                       tableName="vault_transaction_notes"/>
+    </changeSet>
+    <changeSet id="pk_hash_to_ext_id_map_pkey" author="R3.Corda">
+        <addPrimaryKey columnNames="public_key_hash" constraintName="pk_hash_to_ext_id_map_pkey"
+                       tableName="pk_hash_to_ext_id_map"/>
+    </changeSet>
+    <changeSet id="vault_fungible_states_parts_fkey" author="R3.Corda">
+        <addForeignKeyConstraint baseColumnNames="output_index,transaction_id"
+                                 baseTableName="vault_fungible_states_parts"
+                                 constraintName="FK__fung_st_parts__fung_st"
+                                 referencedColumnNames="output_index,transaction_id"
+                                 referencedTableName="vault_fungible_states"/>
+    </changeSet>
+    <changeSet id="vault_linear_states_parts_fkey" author="R3.Corda">
+        <addForeignKeyConstraint baseColumnNames="output_index,transaction_id"
+                                 baseTableName="vault_linear_states_parts"
+                                 constraintName="FK__lin_stat_parts__lin_stat"
+                                 referencedColumnNames="output_index,transaction_id"
+                                 referencedTableName="vault_linear_states"/>
+    </changeSet>
+    <changeSet id="add index external_id" author="R3.Corda">
+        <createIndex tableName="vault_linear_states" indexName="external_id_idx">
+            <column name="external_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="add index uuid" author="R3.Corda">
+        <createIndex tableName="vault_linear_states" indexName="uuid_idx">
+            <column name="uuid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="add index state_status" author="R3.Corda">
+        <createIndex tableName="vault_states" indexName="state_status_idx">
+            <column name="state_status"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="add index lock_id" author="R3.Corda">
+        <createIndex tableName="vault_states" indexName="lock_id_idx">
+            <column name="lock_id"/>
+            <column name="state_status"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="add index vault_transaction_notes" author="R3.Corda">
+        <createIndex tableName="vault_transaction_notes" indexName="transaction_id_idx">
+            <column name="transaction_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="add index state_party" author="R3.Corda">
+        <createIndex tableName="state_party" indexName="public_key_hash_idx">
+            <column name="public_key_hash"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="add index pk_hash_to_ext_id_map-external_id" author="R3.Corda">
+        <createIndex tableName="pk_hash_to_ext_id_map" indexName="external_id_idx">
+            <column name="external_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="add index pk_hash_to_ext_id_map-public_key_hash" author="R3.Corda">
+        <createIndex tableName="pk_hash_to_ext_id_map" indexName="public_key_hash_idx">
+            <column name="public_key_hash"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="add index " author="R3.Corda">
+        <createIndex tableName="" indexName="_idx">
+            <column name=""/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="v_pkey_hash_ex_id_map" author="R3.Corda">
+        <createView viewName="v_pkey_hash_ex_id_map">
+            select
+                state_party.public_key_hash,
+                state_party.transaction_id,
+                state_party.output_index,
+            pk_hash_to_ext_id_map.external_id
+            from state_party
+            join pk_hash_to_ext_id_map
+            on state_party.public_key_hash = pk_hash_to_ext_id_map.public_key_hash
+        </createView>
+    </changeSet>
+</databaseChangeLog>
