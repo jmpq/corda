@@ -22,7 +22,7 @@
     </changeSet>
     <changeSet id="node_info_hosts" author="R3.Corda">
         <createTable tableName="node_info_hosts">
-            <column name="host_id" type="INT">
+            <column name="hosts_id" type="INT">
                 <constraints nullable="false"/>
             </column>
             <column name="host_name" type="NVARCHAR(255)">

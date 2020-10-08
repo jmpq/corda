@@ -5,28 +5,28 @@
 
     <changeSet author="R3.Corda" id="add_tenant" dbms="postgresql">
         <addColumn tableName="vault_fungible_states">
-            <column name="tenant" type="TEXT" defaultValue="USER"/>
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
         </addColumn>
         <addColumn tableName="vault_fungible_states_parts">
-            <column name="tenant" type="TEXT" defaultValue="USER"/>
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
         </addColumn>
         <addColumn tableName="vault_linear_states">
-            <column name="tenant" type="TEXT" defaultValue="USER"/>
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
         </addColumn>
         <addColumn tableName="vault_linear_states_parts">
-            <column name="tenant" type="TEXT" defaultValue="USER"/>
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
         </addColumn>
         <addColumn tableName="vault_states">
-            <column name="tenant" type="TEXT" defaultValue="USER"/>
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
         </addColumn>
         <addColumn tableName="vault_transaction_notes">
-            <column name="tenant" type="TEXT" defaultValue="USER"/>
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
         </addColumn>
         <addColumn tableName="state_party">
-            <column name="tenant" type="TEXT" defaultValue="USER"/>
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
         </addColumn>
         <addColumn tableName="pk_hash_to_ext_id_map">
-            <column name="tenant" type="TEXT" defaultValue="USER"/>
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

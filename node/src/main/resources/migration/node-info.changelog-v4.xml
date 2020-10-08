@@ -1,0 +1,49 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="R3.Corda" id="add_id_and_tenant" dbms="postgresql">
+        <dropAllForeignKeyConstraints baseTableName="node_link_nodeinfo_party"/>
+        <dropAllForeignKeyConstraints baseTableName="node_info_hosts"/>
+
+        <addColumn tableName="node_infos">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+        <dropPrimaryKey tableName="node_infos" constraintName="node_infos_pkey"/>
+        <addPrimaryKey tableName="node_infos" columnNames="node_info_id, tenant"
+                       constraintName="node_infos_pkey"/>
+
+        <addColumn tableName="node_info_hosts">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+        <dropPrimaryKey tableName="node_info_hosts" constraintName="node_info_hosts_pkey_id"/>
+        <addPrimaryKey tableName="node_info_hosts" columnNames="hosts_id, tenant"
+                       constraintName="node_info_hosts_pkey_id"/>
+
+        <addForeignKeyConstraint baseColumnNames="node_info_id, tenant" baseTableName="node_info_hosts"
+                                 constraintName="FK__info_hosts__infos"
+                                 referencedColumnNames="node_info_id, tenant" referencedTableName="node_infos"/>
+
+        <addColumn tableName="node_info_party_cert">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+        <dropPrimaryKey tableName="node_info_party_cert" constraintName="node_info_party_cert_pkey"/>
+        <addPrimaryKey tableName="node_info_party_cert" columnNames="party_name, tenant"
+                       constraintName="node_info_party_cert_pkey"/>
+
+        <addColumn tableName="node_link_nodeinfo_party">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="node_info_id, tenant" baseTableName="node_link_nodeinfo_party"
+                                 constraintName="FK__link_nodeinfo_party__infos"
+                                 referencedColumnNames="node_info_id, tenant" referencedTableName="node_infos"/>
+        <addForeignKeyConstraint baseColumnNames="party_name, tenant" baseTableName="node_link_nodeinfo_party"
+                                 constraintName="FK__link_ni_p__info_p_cert"
+                                 referencedColumnNames="party_name, tenant" referencedTableName="node_info_party_cert"/>
+
+        <addColumn tableName="node_properties">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

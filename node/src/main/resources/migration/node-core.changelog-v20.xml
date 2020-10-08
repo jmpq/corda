@@ -1,0 +1,152 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd"
+                   logicalFilePath="migration/node-services.changelog-init.xml">
+
+    <changeSet author="R3.Corda" id="add_db_sequence_and_tenant" dbms="postgresql">
+        <dropAllForeignKeyConstraints baseTableName="node_attachments_contracts"/>
+        <dropAllForeignKeyConstraints baseTableName="node_attachments_signers"/>
+
+        <addColumn tableName="node_attachments">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+        <dropPrimaryKey tableName="node_attachments" constraintName="node_attachments_pkey"/>
+        <addPrimaryKey tableName="node_attachments" columnNames="att_id, tenant"
+                       constraintName="node_attachments_pkey"/>
+
+        <addColumn tableName="node_attachments_contracts">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="att_id, tenant" baseTableName="node_attachments_contracts"
+                                 constraintName="FK__ctr_class__attachments"
+                                 referencedColumnNames="att_id, tenant" referencedTableName="node_attachments"/>
+
+        <addColumn tableName="node_attachments_signers">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="att_id, tenant" baseTableName="node_attachments_signers"
+                                 constraintName="FK__signers__attachments"
+                                 referencedColumnNames="att_id, tenant" referencedTableName="node_attachments"/>
+
+        <addColumn tableName="node_identities">
+            <column name="id" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <dropDefaultValue tableName="node_identities" columnName="id"/>
+        <addAutoIncrement tableName="node_identities"
+                          columnDataType="bigint"
+                          columnName="id"/>
+        <sql>UPDATE node_identities SET id = default</sql>
+        <addColumn tableName="node_identities">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+        <dropPrimaryKey tableName="node_identities" constraintName="node_identities_pkey"/>
+        <addPrimaryKey tableName="node_identities" columnNames="id, pk_hash"
+                       constraintName="node_identities_pkey" />
+
+        <addColumn tableName="node_hash_to_key">
+            <column name="id" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <dropDefaultValue tableName="node_hash_to_key" columnName="id"/>
+        <addAutoIncrement tableName="node_hash_to_key"
+                          columnDataType="bigint"
+                          columnName="id"/>
+        <sql>UPDATE node_hash_to_key SET id = default</sql>
+        <addColumn tableName="node_hash_to_key">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+        <dropPrimaryKey tableName="node_hash_to_key" constraintName="node_hash_to_key_pk_hash"/>
+        <addPrimaryKey tableName="node_hash_to_key" columnNames="id, pk_hash"
+                       constraintName="node_hash_to_key_pk_hash"/>
+
+        <addColumn tableName="node_identities_no_cert">
+            <column name="id" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <dropDefaultValue tableName="node_identities_no_cert" columnName="id"/>
+        <addAutoIncrement tableName="node_identities_no_cert"
+                          columnDataType="bigint"
+                          columnName="id"/>
+        <sql>UPDATE node_identities_no_cert SET id = default</sql>
+        <addColumn tableName="node_identities_no_cert">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+        <dropPrimaryKey tableName="node_identities_no_cert" constraintName="node_identities_no_cert_pkey"/>
+        <addPrimaryKey tableName="node_identities_no_cert" columnNames="id, pk_hash"
+                       constraintName="node_identities_no_cert_pkey"/>
+
+        <addColumn tableName="node_named_identities">
+            <column name="id" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <dropDefaultValue tableName="node_named_identities" columnName="id"/>
+        <addAutoIncrement tableName="node_named_identities"
+                          columnDataType="bigint"
+                          columnName="id"/>
+        <sql>UPDATE node_named_identities SET id = default</sql>
+        <addColumn tableName="node_named_identities">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+        <dropPrimaryKey tableName="node_named_identities" constraintName="node_named_identities_pkey"/>
+        <addPrimaryKey tableName="node_named_identities" columnNames="id, name"
+                       constraintName="node_named_identities_pkey"/>
+
+        <addColumn tableName="node_our_key_pairs">
+            <column name="id" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <dropDefaultValue tableName="node_our_key_pairs" columnName="id"/>
+        <addAutoIncrement tableName="node_our_key_pairs"
+                          columnDataType="bigint"
+                          columnName="id"/>
+        <sql>UPDATE node_our_key_pairs SET id = default</sql>
+        <addColumn tableName="node_our_key_pairs">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+        <dropPrimaryKey tableName="node_our_key_pairs" constraintName="node_our_key_pairs_pkey"/>
+        <addPrimaryKey tableName="node_our_key_pairs" columnNames="id, public_key_hash"
+                       constraintName="node_our_key_pairs_pkey" />
+
+        <addColumn tableName="node_network_parameters">
+            <column name="id" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <dropDefaultValue tableName="node_network_parameters" columnName="id"/>
+        <addAutoIncrement tableName="node_network_parameters"
+                          columnDataType="bigint"
+                          columnName="id"/>
+        <sql>UPDATE node_network_parameters SET id = default</sql>
+        <addColumn tableName="node_network_parameters">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+        <dropPrimaryKey tableName="node_network_parameters" constraintName="node_network_parameters_pkey"/>
+        <addPrimaryKey tableName="node_network_parameters" columnNames="id, hash"
+                       constraintName="node_network_parameters_pkey" />
+
+        <addColumn tableName="node_transactions">
+            <column name="id" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <dropDefaultValue tableName="node_transactions" columnName="id"/>
+        <addAutoIncrement tableName="node_transactions"
+                          columnDataType="bigint"
+                          columnName="id"/>
+        <sql>UPDATE node_transactions SET id = default</sql>
+        <addColumn tableName="node_transactions">
+            <column name="tenant" type="TEXT" defaultValueComputed="USER"/>
+        </addColumn>
+        <dropPrimaryKey tableName="node_transactions" constraintName="node_transactions_pkey"/>
+        <addPrimaryKey tableName="node_transactions" columnNames="id, tx_id"
+                       constraintName="node_transactions_pkey" />
+
+    </changeSet>
+</databaseChangeLog>

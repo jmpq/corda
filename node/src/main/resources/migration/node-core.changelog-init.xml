@@ -145,11 +145,6 @@
     <changeSet author="R3.Corda" id="1511451595465-46">
         <addPrimaryKey columnNames="tx_id" constraintName="node_transactions_pkey" tableName="node_transactions"/>
     </changeSet>
-    <changeSet author="R3.Corda" id="1511451595465-61">
-        <addForeignKeyConstraint baseColumnNames="party_name" baseTableName="node_link_nodeinfo_party"
-                                 constraintName="FK__link_ni_p__info_p_cert"
-                                 referencedColumnNames="party_name" referencedTableName="node_info_party_cert"/>
-    </changeSet>
     <changeSet author="R3.Corda" id="add index att_id">
         <createIndex tableName="node_attachments" indexName="att_id_idx">
             <column name="att_id"/>
